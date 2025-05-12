@@ -1,4 +1,3 @@
-
 CREATE TABLE tb_ponto_coleta (
                                  id_ponto         NUMBER PRIMARY KEY,
                                  nm_ponto         VARCHAR2(100) NOT NULL,
