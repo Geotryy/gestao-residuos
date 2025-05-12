@@ -1,7 +1,28 @@
+version: '3.8'
+
 services:
   oracle:
-    image: 'gvenzl/oracle-free:latest'
+    image: gvenzl/oracle-free:latest
+    container_name: gestao-residuos-oracle
     environment:
-      - 'ORACLE_PASSWORD=secret'
+      ORACLE_PASSWORD: secret
+      ORACLE_ALLOW_REMOTE: 'true'
     ports:
-      - '1521'
+      - '1521:1521'
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gestao-residuos-api
+    depends_on:
+      - oracle
+    ports:
+      - '8080:8080'
+    environment:
+      SPRING_DATASOURCE_URL:      jdbc:oracle:thin:@oracle:1521:ORCL
+      SPRING_DATASOURCE_USERNAME: RM558988
+      SPRING_DATASOURCE_PASSWORD: 010505
+      SPRING_FLYWAY_ENABLED:      'true'
+      SPRING_FLYWAY_BASELINE-ON-MIGRATE: 'true'
+      SPRING_FLYWAY_LOCATIONS:    classpath:db/migration
