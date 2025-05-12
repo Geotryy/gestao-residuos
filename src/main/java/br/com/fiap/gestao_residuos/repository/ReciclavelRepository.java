@@ -1,4 +1,4 @@
-package br.com.fiap.repository;
+package br.com.fiap.gestao_residuos.repository;
 
 
 import br.com.fiap.gestao_residuos.model.PontoColeta;

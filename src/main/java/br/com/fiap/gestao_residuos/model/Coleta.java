@@ -1,7 +1,9 @@
 package br.com.fiap.gestao_residuos.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -9,6 +11,8 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "tb_coleta")
 @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Coleta {
 
     @Id
