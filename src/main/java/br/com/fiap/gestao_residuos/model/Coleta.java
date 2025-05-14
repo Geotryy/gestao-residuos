@@ -16,6 +16,12 @@ import java.time.LocalDate;
 public class Coleta {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "coleta_seq")
+    @SequenceGenerator(
+            name = "coleta_seq",
+            sequenceName = "SQ_COLETA",
+            allocationSize = 1
+    )
     @Column(name = "id_coleta")
     private Long idColeta;
 

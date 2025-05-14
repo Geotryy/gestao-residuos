@@ -3,55 +3,59 @@ package br.com.fiap.gestao_residuos.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class SecurityConfig {
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-        UserDetails user = User.builder()
-                .username("geo")
-                .password(encoder.encode("senha123"))
-                .roles("USER")
-                .build();
-
-        UserDetails admin = User.builder()
+    @Bean
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+        var admin = User.builder()
                 .username("admin")
-                .password(encoder.encode("admin123"))
+                .password(passwordEncoder.encode("admin123"))
                 .roles("ADMIN")
                 .build();
 
-        return new InMemoryUserDetailsManager(user, admin);
+        var user = User.builder()
+                .username("user")
+                .password(passwordEncoder.encode("user123"))
+                .roles("USER")
+                .build();
+
+        return new InMemoryUserDetailsManager(admin, user);
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST,   "/pontos-coleta/**").hasRole("ADMIN")
-                        .requestMatchers(                   "/pontos-coleta/**").hasAnyRole("USER","ADMIN")
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.POST, "/pontos-coleta/**").hasRole("ADMIN")
+                        .requestMatchers("/pontos-coleta/**").hasAnyRole("USER", "ADMIN")
 
-                        .requestMatchers(HttpMethod.GET,    "/reciclaveis/**").permitAll()                     // público
-                        .requestMatchers(HttpMethod.POST,   "/reciclaveis/**").hasAnyRole("USER","ADMIN")     // USER & ADMIN
-                        .requestMatchers(HttpMethod.PUT,    "/reciclaveis/**").hasAnyRole("USER","ADMIN")     // USER & ADMIN
-                        .requestMatchers(HttpMethod.DELETE, "/reciclaveis/**").hasRole("ADMIN")               // só ADMIN
+                        .requestMatchers(HttpMethod.GET, "/reciclaveis/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/reciclaveis/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/reciclaveis/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/reciclaveis/**").hasRole("ADMIN")
 
-                        .anyRequest().authenticated()
+                        .anyRequest().hasRole("USER")
                 )
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(basic -> {}) 
+                .formLogin(AbstractHttpConfigurer::disable);
 
         return http.build();
     }

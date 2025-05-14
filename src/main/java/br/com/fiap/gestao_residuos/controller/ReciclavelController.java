@@ -1,6 +1,7 @@
 package br.com.fiap.gestao_residuos.controller;
 
 import br.com.fiap.gestao_residuos.dto.ReciclavelDTO;
+import br.com.fiap.gestao_residuos.enums.StatusColeta;
 import br.com.fiap.gestao_residuos.model.Reciclavel;
 import br.com.fiap.gestao_residuos.service.ReciclavelService;
 import jakarta.validation.Valid;
@@ -18,41 +19,46 @@ public class ReciclavelController {
 
     private final ReciclavelService service;
 
+
     @GetMapping
     public ResponseEntity<List<Reciclavel>> listar() {
         return ResponseEntity.ok(service.listar());
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Reciclavel> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(service.buscarPorId(id));
     }
 
+
     @GetMapping("/ponto/{idPonto}")
     public ResponseEntity<List<Reciclavel>> listarPorPonto(@PathVariable Long idPonto) {
         return ResponseEntity.ok(service.listarPorPonto(idPonto));
     }
 
+
     @PostMapping
     public ResponseEntity<Reciclavel> criar(@RequestBody @Valid ReciclavelDTO dto) {
         Reciclavel reciclavel = new Reciclavel();
-        reciclavel.setIdMaterial(dto.idMaterial());
         reciclavel.setPesoKg(dto.pesoKg());
-        reciclavel.setStatusColeta(dto.statusColeta());
         reciclavel.setDtDescarte(dto.dtDescarte());
+        reciclavel.setStatusColeta(StatusColeta.valueOf(dto.statusColeta()));
 
         Reciclavel salvo = service.criar(reciclavel, dto.idTipoResiduo(), dto.idPontoColeta());
         return ResponseEntity.created(URI.create("/reciclaveis/" + salvo.getIdMaterial())).body(salvo);
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<Reciclavel> atualizar(@PathVariable Long id, @RequestBody @Valid ReciclavelDTO dto) {
         Reciclavel reciclavel = new Reciclavel();
         reciclavel.setPesoKg(dto.pesoKg());
-        reciclavel.setStatusColeta(dto.statusColeta());
+        reciclavel.setStatusColeta(StatusColeta.valueOf(dto.statusColeta()));
 
         return ResponseEntity.ok(service.atualizar(id, reciclavel));
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {

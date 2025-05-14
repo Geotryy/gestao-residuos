@@ -14,6 +14,12 @@ import lombok.Setter;
 public class TipoResiduo {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "residuo_seq")
+    @SequenceGenerator(
+            name = "residuo_seq",
+            sequenceName = "SQ_RESIDUO",
+            allocationSize = 1
+    )
     @Column(name = "id_tipo")
     private Long idTipo;
 

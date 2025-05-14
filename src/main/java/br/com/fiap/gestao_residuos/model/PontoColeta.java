@@ -15,6 +15,12 @@ import lombok.Setter;
 public class PontoColeta {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ponto_seq")
+    @SequenceGenerator(
+            name = "ponto_seq",
+            sequenceName = "SQ_PONTO_COLETA",
+            allocationSize = 1
+    )
     @Column(name = "id_ponto")
     private Long idPonto;
 

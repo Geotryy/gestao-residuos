@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public record PontoColetaDTO(
-        Long idPonto,
+
 
         @NotBlank(message = "O nome do ponto é obrigatório")
         String nmPonto,

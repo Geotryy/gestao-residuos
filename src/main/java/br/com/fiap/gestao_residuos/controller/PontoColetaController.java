@@ -31,7 +31,6 @@ public class PontoColetaController {
     @PostMapping
     public ResponseEntity<PontoColeta> criar(@RequestBody @Valid PontoColetaDTO dto) {
         PontoColeta ponto = new PontoColeta();
-        ponto.setIdPonto(dto.idPonto());
         ponto.setNmPonto(dto.nmPonto());
         ponto.setEnderecoPonto(dto.enderecoPonto());
         ponto.setCapacidKgPonto(dto.capacidKgPonto());

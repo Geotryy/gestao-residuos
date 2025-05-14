@@ -1,5 +1,6 @@
 package br.com.fiap.gestao_residuos.service;
 
+import br.com.fiap.gestao_residuos.enums.StatusColeta;
 import br.com.fiap.gestao_residuos.model.Coleta;
 import br.com.fiap.gestao_residuos.model.PontoColeta;
 import br.com.fiap.gestao_residuos.model.Reciclavel;
@@ -28,14 +29,13 @@ public class ColetaService {
         PontoColeta ponto = pontoColetaService.buscarPorId(idPonto);
 
         Coleta coleta = new Coleta();
-        coleta.setIdColeta(System.currentTimeMillis()); // Exemplo simples
+        coleta.setIdColeta(System.currentTimeMillis());
         coleta.setDtColeta(LocalDate.now());
         coleta.setPontoColeta(ponto);
         coleta.setReciclavel(reciclavel);
 
-        reciclavel.setStatusColeta("C");
+        reciclavel.setStatusColeta(StatusColeta.valueOf("C"));
         reciclavelService.atualizar(idReciclavel, reciclavel);
 
         return repository.save(coleta);
-    }
-}
+    }}
