@@ -1,11 +1,11 @@
 <h1 align="center">🟢 Gestão de Resíduos</h1>
 
 <p align="center">
-  Sistema web para cadastro e monitoramento de pontos de coleta e materiais recicláveis, feito com Spring Boot e Java.
+  API REST para cadastro e monitoramento de pontos de coleta e materiais recicláveis, desenvolvida com Spring Boot e Java.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow" alt="status" />
+  <img src="https://img.shields.io/badge/Status-Concluído-brightgreen" alt="status" />
   <img src="https://img.shields.io/badge/Java-17-blue?logo=java" alt="java" />
   <img src="https://img.shields.io/badge/Spring%20Boot-3.0-brightgreen?logo=springboot" alt="spring boot" />
 </p>
@@ -14,7 +14,7 @@
 
 ## 🌱 Sobre o projeto
 
-Este sistema foi desenvolvido como parte de um projeto acadêmico com o objetivo de auxiliar na **gestão de resíduos recicláveis**.
+Esta API foi desenvolvida como parte de um projeto acadêmico com o objetivo de auxiliar na **gestão de resíduos recicláveis**.
 
 A aplicação permite:
 
@@ -78,7 +78,7 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-Acesse a aplicação no navegador:
+Acesse os endpoints pela porta padrão:
 
 ```
 http://localhost:8080
@@ -103,9 +103,10 @@ A segurança está configurada via `SecurityConfig.java`, com regras básicas pa
 
 ---
 
-## 🖼️ Imagens (adicione aqui depois)
 
-> Sugestão: prints de testes com Postman, telas se houver front, e exemplo de JSONs.
+## 🔧 Status do Projeto
+
+✅ Concluído para fins acadêmicos
 
 ---
 
@@ -117,4 +118,3 @@ Desenvolvido por **Geovanna Dias** 💚
 ---
 
 <p align="center"><i>“Desenvolver com propósito é transformar ideias em impacto.”</i></p>
-
