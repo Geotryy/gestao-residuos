@@ -66,7 +66,7 @@ gestao-residuos
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/gestao-residuos.git
+git clone https://github.com/Geotryy/gestao-residuos.git
 
 # Acesse a pasta
 cd gestao-residuos
